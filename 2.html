@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<!-- http://arturadib.com/hello-backbonejs/docs/2.html -->
+<head>
+  <met charset="utf-8">
+  <title>hello-backbonejs - 2</title>
+</head>
+<body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+  <script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+  <script src="http://ajax.cdnjs.com/ajax/libs/underscore.js/1.1.6/underscore-min.js"></script>
+  <script src="http://ajax.cdnjs.com/ajax/libs/backbone.js/0.3.3/backbone-min.js"></script>
+
+<script>
+(function($){
+  var ListView = Backbone.View.extend({
+    el: $('body'),
+
+    events: {
+      'click button#add': 'addItem'
+    },
+    initialize: function() {
+      // bind all functions that use 'this' as the current object
+      _.bindAll(this, 'render', 'addItem'); 
+      this.counter = 0;
+      this.render();
+    },
+    render: function() {
+      $(this.el).append("<button id='add'>Add list item</button>");
+      $(this.el).append("<ul></ul>");
+    },
+    addItem: function() {
+      this.counter++;
+      $('ul', this.el).append("<li>hello world #"+this.counter+"</li>");
+    }
+  });
+
+  var listView = new ListView();
+})(jQuery);
+</script>
+</body>
+</html>
+<!-- 
+  Let's walk through this... line 16 defines a 'el' property that we can use to
+  scope our view to a jQuery 'body' object.
+
+  Next up, line 18 creates an 'events' block. Each key-value pair in this block
+  specifies an 'element & event' and a funciton to call when the event occurs.
+  In this case, we're stating that the button with ID "add" should call 
+  'addItem' on click. Very good so far ...
+
+  Next, when we instantiate a new ListView object, we will automatically invoke
+  the 'initialize' function. As such, this contstructor should prepare the
+  instance with whatever basic stuff it needs.
+
+  > We have a little underscore.js going on as the first call, but i'm not 100%
+  sure on what it does ... According to the official _ docs, bindAll will invoke
+  all specified funcitons in the parent object's context.
+
+  > Next, we define an a var that will act as a counter. For the purpose of this
+  demo, the counter is what shows that we're interacing with the underlying code.
+  That is, when the user clicks something and 'addItem' is called, the counter's
+  value will incriment thereby making it obvious that the user's action is 
+  modifying the underlying state of the object. 
+
+  > Finally, we call render() to prepare the document for modification and 
+  interaction. Rather than prattle on here, let's jump into Render.
+
+  Line 27 beings the definition of the render function. Rather simply, this
+  funciton will add a button and empty UL list to the el element. Note that
+  the value of el was specified on line 16. This design allows the view to be
+  dynamically specified by a caller (e.g. by passing el's selector as a
+  constructor parameter). 
+
+  I could go on, but it seems pretty clear what's happening here. We manually
+  specify the scope of the view (in 'el'), we define the events we want to track
+  in an 'events' object, create some functions to handle the heavy lifing, and 
+  chain properties together such that clicking the button will invoke addItem 
+  which will incriment the coutner and append the unordered list with a new 
+  element.
+-->

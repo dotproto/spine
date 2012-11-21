@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<!-- http://arturadib.com/hello-backbonejs/docs/1.html -->
+<head>
+  <met charset="utf-8">
+  <title>hello-backbonejs - 1</title>
+</head>
+<body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+  <script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+  <script src="http://ajax.cdnjs.com/ajax/libs/underscore.js/1.1.6/underscore-min.js"></script>
+  <script src="http://ajax.cdnjs.com/ajax/libs/backbone.js/0.3.3/backbone-min.js"></script>
+
+<script>
+(function($){
+  var ListView = Backbone.View.extend({
+    el: $('body'), // Attaches 'this.el' to an existing element.
+
+    initialize: function(){
+      _.bindAll(this, 'render'); // Fixes loss of context for 'this' within methods.
+      this.render(); // Not all views are self rendering, but this one is.
+
+      console.log("test");
+    },
+
+    render: function (){
+      $(this.el).append("<ul> <li>Hello, world!</li> </ul>");
+
+      console.log("foobar");
+    }
+  });
+
+  var listView = new ListView();
+})(jQuery);
+</script>
+</body>
+</html>
+<!-- http://arturadib.com/hello-backbonejs/ -->
